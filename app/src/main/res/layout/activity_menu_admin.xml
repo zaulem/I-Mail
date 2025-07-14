@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tvBienvenida"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Menú del Administrador"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:id="@+id/btnRegistrarArticulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📦 Registrar artículo nuevo"
+            android:minHeight="48dp" />
+
+        <Button
+            android:id="@+id/btnVerInventario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📋 Ver inventario completo"
+            android:minHeight="48dp"
+            android:layout_marginTop="12dp" />
+
+        <Button
+            android:id="@+id/btnExportarCSV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📤 Exportar inventario a CSV"
+            android:minHeight="48dp"
+            android:layout_marginTop="12dp" />
+
+        <Button
+            android:id="@+id/btnEnviarCorreo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📧 Enviar inventario por correo"
+            android:minHeight="48dp"
+            android:layout_marginTop="12dp" />
+
+        <Button
+            android:id="@+id/btnRegistrarEntrega"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📝 Registrar entrega de artículo"
+            android:minHeight="48dp"
+            android:layout_marginTop="12dp" />
+
+        <Button
+            android:id="@+id/btnVerEntregados"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📄 Ver artículos entregados"
+            android:minHeight="48dp"
+            android:layout_marginTop="12dp" />
+
+        <Button
+            android:id="@+id/btnCerrarSesion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🔓 Cerrar sesión"
+            android:minHeight="48dp"
+            android:layout_marginTop="24dp" />
+    </LinearLayout>
+</ScrollView>
