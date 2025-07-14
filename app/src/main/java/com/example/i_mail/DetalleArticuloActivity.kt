@@ -6,6 +6,9 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.widget.Button
+
 
 class DetalleArticuloActivity : AppCompatActivity() {
 
@@ -28,6 +31,8 @@ class DetalleArticuloActivity : AppCompatActivity() {
         val btnAsignar = findViewById<Button>(R.id.btnAsignar)
         val btnEditar = findViewById<Button>(R.id.btnEditar)
         val btnEliminar = findViewById<Button>(R.id.btnEliminar)
+        val btnRegresar = findViewById<Button>(R.id.btnRegresar)
+        val btnMenu = findViewById<Button>(R.id.btnMenu)
 
         // Obtener datos del artículo desde el intent
         val articuloId = intent.getIntExtra("id", -1)
@@ -83,18 +88,14 @@ class DetalleArticuloActivity : AppCompatActivity() {
                 .setTitle("Asignar a un usuario")
                 .setItems(nombres) { _, which ->
                     val usuarioSeleccionado = usuarios[which]
-                    val fechaHoy = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(java.util.Date())
+                    val fechaHoy = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault()).format(java.util.Date())
 
-                    val valores = ContentValues().apply {
-                        put("articuloId", articuloId)
-                        put("usuarioId", usuarioSeleccionado.id)
-                        put("fechaEntrega", fechaHoy)
-                    }
+                    val exito = db.asignarArticuloAUsuario(articuloId, usuarioSeleccionado.id, fechaHoy)
 
-                    val resultado = db.writableDatabase.insert("entregas", null, valores)
-                    if (resultado != -1L) {
+                    if (exito) {
                         Toast.makeText(this, "Artículo asignado a ${usuarioSeleccionado.nombre}", Toast.LENGTH_SHORT).show()
                         tvAsignado.text = "Asignado a: ${usuarioSeleccionado.nombre} el $fechaHoy"
+                        tvEstado.text = "Estado: Asignado"
                     } else {
                         Toast.makeText(this, "Error al asignar el artículo", Toast.LENGTH_SHORT).show()
                     }
@@ -102,6 +103,7 @@ class DetalleArticuloActivity : AppCompatActivity() {
                 .setNegativeButton("Cancelar", null)
                 .show()
         }
+
 
 
         btnEditar.setOnClickListener {
@@ -113,5 +115,20 @@ class DetalleArticuloActivity : AppCompatActivity() {
             Toast.makeText(this, "Aquí se implementará la eliminación", Toast.LENGTH_SHORT).show()
             // Confirmación + eliminación
         }
+
+        btnRegresar.setOnClickListener {
+            val intent = Intent(this, ListaArticulosActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+        }
+
+        btnMenu.setOnClickListener {
+            val intent = Intent(this, MenuAdminActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+        }
+
     }
 }

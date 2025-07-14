@@ -5,6 +5,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import java.text.SimpleDateFormat
+import java.util.*
 
 class FormularioArticuloActivity : AppCompatActivity() {
 
@@ -12,7 +14,6 @@ class FormularioArticuloActivity : AppCompatActivity() {
     private lateinit var etTipo: EditText
     private lateinit var etCantidad: EditText
     private lateinit var etEstado: EditText
-    private lateinit var etFecha: EditText
     private lateinit var btnGuardar: Button
     private lateinit var btnVolver: Button
     private lateinit var btnSeleccionarImagen: Button
@@ -28,8 +29,6 @@ class FormularioArticuloActivity : AppCompatActivity() {
         etNombre = findViewById(R.id.etNombre)
         etTipo = findViewById(R.id.etTipo)
         etCantidad = findViewById(R.id.etCantidad)
-        etEstado = findViewById(R.id.etEstado)
-        etFecha = findViewById(R.id.etFecha)
         btnGuardar = findViewById(R.id.btnGuardar)
         btnVolver = findViewById(R.id.btnVolver)
         btnSeleccionarImagen = findViewById(R.id.btnSeleccionarImagen)
@@ -49,10 +48,9 @@ class FormularioArticuloActivity : AppCompatActivity() {
             val nombre = etNombre.text.toString().trim()
             val tipo = etTipo.text.toString().trim()
             val cantidadTexto = etCantidad.text.toString().trim()
-            val estado = etEstado.text.toString().trim()
-            val fecha = etFecha.text.toString().trim()
+            val estado = "Disponible"
 
-            if (nombre.isEmpty() || tipo.isEmpty() || cantidadTexto.isEmpty() || estado.isEmpty() || fecha.isEmpty()) {
+            if (nombre.isEmpty() || tipo.isEmpty() || cantidadTexto.isEmpty() || estado.isEmpty()) {
                 Toast.makeText(this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -68,12 +66,15 @@ class FormularioArticuloActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // Obtener la fecha actual en formato dd/MM/yyyy
+            val fechaActual = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+
             val articulo = Articulo(
                 nombre = nombre,
                 tipo = tipo,
                 cantidad = cantidad,
                 estado = estado,
-                fechaIngreso = fecha,
+                fechaIngreso = fechaActual,
                 imagen = imagenUri!!
             )
 
@@ -94,7 +95,6 @@ class FormularioArticuloActivity : AppCompatActivity() {
         etTipo.text.clear()
         etCantidad.text.clear()
         etEstado.text.clear()
-        etFecha.text.clear()
         ivPreview.setImageResource(R.drawable.placeholder)
         imagenUri = null
     }
@@ -109,7 +109,6 @@ class FormularioArticuloActivity : AppCompatActivity() {
                     uri,
                     Intent.FLAG_GRANT_READ_URI_PERMISSION
                 )
-
                 imagenUri = uri.toString()
                 ivPreview.setImageURI(uri)
 
@@ -119,5 +118,4 @@ class FormularioArticuloActivity : AppCompatActivity() {
             }
         }
     }
-
 }

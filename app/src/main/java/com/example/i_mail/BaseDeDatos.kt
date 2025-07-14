@@ -171,6 +171,35 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         } else null
     }
 
+    fun asignarArticuloAUsuario(articuloId: Int, usuarioId: Int, fechaEntrega: String): Boolean {
+        val db = writableDatabase
+        db.beginTransaction()
+        return try {
+            val valoresEntrega = ContentValues().apply {
+                put("articuloId", articuloId)
+                put("usuarioId", usuarioId)
+                put("fechaEntrega", fechaEntrega)
+            }
+            val resultadoEntrega = db.insert("entregas", null, valoresEntrega)
+
+            val valoresEstado = ContentValues().apply {
+                put("estado", "Asignado")
+            }
+            val resultadoEstado = db.update("articulos", valoresEstado, "id = ?", arrayOf(articuloId.toString()))
+
+            if (resultadoEntrega != -1L && resultadoEstado > 0) {
+                db.setTransactionSuccessful()  // confirma la transacción
+                true
+            } else {
+                false
+            }
+        } finally {
+            db.endTransaction()  // termina la transacción (confirma o revierte)
+        }
+    }
+
+
+
 
 
 

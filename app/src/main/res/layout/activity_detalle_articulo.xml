@@ -72,6 +72,7 @@
             android:textSize="15sp"
             android:textColor="#444"
             android:layout_marginBottom="20dp" />
+
         <Button
             android:id="@+id/btnAsignar"
             android:layout_width="match_parent"
@@ -95,7 +96,24 @@
             android:text="🗑️ Eliminar"
             android:minHeight="48dp"
             android:backgroundTint="#C62828"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="16dp" />
 
+        <!-- Nuevo botón: Regresar -->
+        <Button
+            android:id="@+id/btnRegresar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🔙 Regresar"
+            android:minHeight="48dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Nuevo botón: Menú -->
+        <Button
+            android:id="@+id/btnMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🏠 Menú"
+            android:minHeight="48dp" />
     </LinearLayout>
 </ScrollView>
