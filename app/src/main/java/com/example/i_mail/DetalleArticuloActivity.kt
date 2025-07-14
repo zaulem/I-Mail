@@ -7,8 +7,8 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
-import android.widget.Button
-
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DetalleArticuloActivity : AppCompatActivity() {
 
@@ -20,7 +20,6 @@ class DetalleArticuloActivity : AppCompatActivity() {
 
         db = BaseDeDatos(this)
 
-        // Obtener referencias de los views
         val ivImagen = findViewById<ImageView>(R.id.ivImagen)
         val tvNombre = findViewById<TextView>(R.id.tvNombre)
         val tvTipo = findViewById<TextView>(R.id.tvTipo)
@@ -34,7 +33,6 @@ class DetalleArticuloActivity : AppCompatActivity() {
         val btnRegresar = findViewById<Button>(R.id.btnRegresar)
         val btnMenu = findViewById<Button>(R.id.btnMenu)
 
-        // Obtener datos del artículo desde el intent
         val articuloId = intent.getIntExtra("id", -1)
         val nombre = intent.getStringExtra("nombre") ?: "Sin nombre"
         val tipo = intent.getStringExtra("tipo") ?: "Sin tipo"
@@ -43,7 +41,6 @@ class DetalleArticuloActivity : AppCompatActivity() {
         val fecha = intent.getStringExtra("fechaIngreso") ?: "Sin fecha"
         val imagen = intent.getStringExtra("imagen") ?: ""
 
-        // Mostrar datos
         tvNombre.text = nombre
         tvTipo.text = "Tipo: $tipo"
         tvEstado.text = "Estado: $estado"
@@ -65,7 +62,6 @@ class DetalleArticuloActivity : AppCompatActivity() {
             ivImagen.setImageResource(R.drawable.placeholder)
         }
 
-        // Consultar asignación actual
         val entrega = db.obtenerEntregaDeArticulo(articuloId)
         if (entrega != null) {
             tvAsignado.text = "Asignado a: ${entrega.nombreUsuario} el ${entrega.fechaEntrega}"
@@ -73,7 +69,6 @@ class DetalleArticuloActivity : AppCompatActivity() {
             tvAsignado.text = "Disponible (sin asignar)"
         }
 
-        // Botones funcionales
         btnAsignar.setOnClickListener {
             val usuarios = db.obtenerUsuarios()
 
@@ -82,38 +77,47 @@ class DetalleArticuloActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val nombres = usuarios.map { it.nombre }.toTypedArray()
+            val nombresConDisponible = mutableListOf("Disponible")
+            nombresConDisponible.addAll(usuarios.map { it.nombre })
 
             AlertDialog.Builder(this)
                 .setTitle("Asignar a un usuario")
-                .setItems(nombres) { _, which ->
-                    val usuarioSeleccionado = usuarios[which]
-                    val fechaHoy = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault()).format(java.util.Date())
+                .setItems(nombresConDisponible.toTypedArray()) { _, which ->
+                    val fechaHoy = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
 
-                    val exito = db.asignarArticuloAUsuario(articuloId, usuarioSeleccionado.id, fechaHoy)
-
-                    if (exito) {
-                        Toast.makeText(this, "Artículo asignado a ${usuarioSeleccionado.nombre}", Toast.LENGTH_SHORT).show()
-                        tvAsignado.text = "Asignado a: ${usuarioSeleccionado.nombre} el $fechaHoy"
-                        tvEstado.text = "Estado: Asignado"
+                    if (which == 0) {
+                        // Opción "Disponible"
+                        val exito = db.marcarArticuloComoDisponible(articuloId)
+                        if (exito) {
+                            Toast.makeText(this, "Artículo marcado como disponible", Toast.LENGTH_SHORT).show()
+                            tvAsignado.text = "Disponible (sin asignar)"
+                            tvEstado.text = "Estado: Disponible"
+                        } else {
+                            Toast.makeText(this, "Error al actualizar el estado", Toast.LENGTH_SHORT).show()
+                        }
                     } else {
-                        Toast.makeText(this, "Error al asignar el artículo", Toast.LENGTH_SHORT).show()
+                        val usuarioSeleccionado = usuarios[which - 1] // Ajuste de índice
+                        val exito = db.asignarArticuloAUsuario(articuloId, usuarioSeleccionado.id, fechaHoy)
+
+                        if (exito) {
+                            Toast.makeText(this, "Artículo asignado a ${usuarioSeleccionado.nombre}", Toast.LENGTH_SHORT).show()
+                            tvAsignado.text = "Asignado a: ${usuarioSeleccionado.nombre} el $fechaHoy"
+                            tvEstado.text = "Estado: Asignado"
+                        } else {
+                            Toast.makeText(this, "Error al asignar el artículo", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
                 .setNegativeButton("Cancelar", null)
                 .show()
         }
 
-
-
         btnEditar.setOnClickListener {
             Toast.makeText(this, "Aquí irá la edición del artículo", Toast.LENGTH_SHORT).show()
-            // Aquí se implementará más adelante
         }
 
         btnEliminar.setOnClickListener {
             Toast.makeText(this, "Aquí se implementará la eliminación", Toast.LENGTH_SHORT).show()
-            // Confirmación + eliminación
         }
 
         btnRegresar.setOnClickListener {
@@ -129,6 +133,5 @@ class DetalleArticuloActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
     }
 }

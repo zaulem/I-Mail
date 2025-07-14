@@ -77,43 +77,64 @@
             android:id="@+id/btnAsignar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📥 Asignar a alguien"
+            android:text="Asignar o Marcar como Disponible"
             android:minHeight="48dp"
-            android:layout_marginTop="12dp" />
-
-        <Button
-            android:id="@+id/btnEditar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="✏️ Editar"
-            android:minHeight="48dp"
-            android:layout_marginBottom="12dp" />
-
-        <Button
-            android:id="@+id/btnEliminar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="🗑️ Eliminar"
-            android:minHeight="48dp"
-            android:backgroundTint="#C62828"
-            android:textColor="#FFFFFF"
+            android:layout_marginTop="12dp"
             android:layout_marginBottom="16dp" />
 
-        <!-- Nuevo botón: Regresar -->
-        <Button
-            android:id="@+id/btnRegresar"
+        <!-- Editar y Eliminar en horizontal -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🔙 Regresar"
-            android:minHeight="48dp"
-            android:layout_marginBottom="8dp" />
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="16dp">
 
-        <!-- Nuevo botón: Menú -->
-        <Button
-            android:id="@+id/btnMenu"
+            <Button
+                android:id="@+id/btnEditar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Editar"
+                android:minHeight="48dp"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnEliminar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Eliminar"
+                android:minHeight="48dp"
+                android:backgroundTint="#C62828"
+                android:textColor="#FFFFFF"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+        <!-- Regresar y Menú en horizontal -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🏠 Menú"
-            android:minHeight="48dp" />
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnRegresar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Regresar"
+                android:minHeight="48dp"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Menú"
+                android:minHeight="48dp"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

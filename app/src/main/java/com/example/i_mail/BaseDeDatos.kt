@@ -198,6 +198,16 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         }
     }
 
+    fun marcarArticuloComoDisponible(articuloId: Int): Boolean {
+        val db = writableDatabase
+        val valores = ContentValues().apply {
+            put("estado", "Disponible")
+        }
+        val filasActualizadas = db.update("articulos", valores, "id = ?", arrayOf(articuloId.toString()))
+        return filasActualizadas > 0
+    }
+
+
 
 
 
