@@ -207,9 +207,47 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         return filasActualizadas > 0
     }
 
+    fun actualizarArticulo(articulo: Articulo): Boolean {
+        val db = writableDatabase
+        val valores = ContentValues().apply {
+            put("nombre", articulo.nombre)
+            put("tipo", articulo.tipo)
+            put("cantidad", articulo.cantidad)
+            put("estado", articulo.estado)
+            put("fechaIngreso", articulo.fechaIngreso)
+            put("imagen", articulo.imagen)
+        }
+        val filas = db.update("articulos", valores, "id = ?", arrayOf(articulo.id.toString()))
+        return filas > 0
+    }
 
+    fun obtenerArticuloPorId(id: Int): Articulo? {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM articulos WHERE id = ?", arrayOf(id.toString()))
+        return if (cursor.moveToFirst()) {
+            Articulo(
+                id = cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
+                tipo = cursor.getString(cursor.getColumnIndexOrThrow("tipo")),
+                cantidad = cursor.getInt(cursor.getColumnIndexOrThrow("cantidad")),
+                estado = cursor.getString(cursor.getColumnIndexOrThrow("estado")),
+                fechaIngreso = cursor.getString(cursor.getColumnIndexOrThrow("fechaIngreso")),
+                imagen = cursor.getString(cursor.getColumnIndexOrThrow("imagen"))
+            )
+        } else null
+    }
 
+    fun eliminarArticulo(id: Int): Boolean {
+        val db = writableDatabase
 
+        // eliminar las entregas asociadas
+        db.delete("entregas", "articuloId = ?", arrayOf(id.toString()))
+
+        // eliminar el artículo
+        val filasAfectadas = db.delete("articulos", "id = ?", arrayOf(id.toString()))
+
+        return filasAfectadas > 0
+    }
 
 
 

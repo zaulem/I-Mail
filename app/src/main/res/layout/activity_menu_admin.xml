@@ -51,21 +51,6 @@
             android:minHeight="48dp"
             android:layout_marginTop="12dp" />
 
-        <Button
-            android:id="@+id/btnRegistrarEntrega"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="📝 Registrar entrega de artículo"
-            android:minHeight="48dp"
-            android:layout_marginTop="12dp" />
-
-        <Button
-            android:id="@+id/btnVerEntregados"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="📄 Ver artículos entregados"
-            android:minHeight="48dp"
-            android:layout_marginTop="12dp" />
 
         <Button
             android:id="@+id/btnCerrarSesion"

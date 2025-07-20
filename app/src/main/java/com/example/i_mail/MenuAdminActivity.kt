@@ -33,13 +33,6 @@ class MenuAdminActivity : AppCompatActivity() {
             startActivity(Intent(this, EnviarCorreoActivity::class.java))
         }
 
-        findViewById<Button>(R.id.btnRegistrarEntrega).setOnClickListener {
-            startActivity(Intent(this, RegistrarEntregaActivity::class.java))
-        }
-
-        findViewById<Button>(R.id.btnVerEntregados).setOnClickListener {
-            startActivity(Intent(this, ListaEntregasActivity::class.java))
-        }
 */
         findViewById<Button>(R.id.btnCerrarSesion).setOnClickListener {
             cerrarSesion()

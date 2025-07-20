@@ -113,11 +113,33 @@ class DetalleArticuloActivity : AppCompatActivity() {
         }
 
         btnEditar.setOnClickListener {
-            Toast.makeText(this, "Aquí irá la edición del artículo", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, editarArticulo::class.java).apply {
+                putExtra("articuloId", articuloId)
+            }
+            startActivity(intent)
+
         }
 
+
+
         btnEliminar.setOnClickListener {
-            Toast.makeText(this, "Aquí se implementará la eliminación", Toast.LENGTH_SHORT).show()
+            AlertDialog.Builder(this)
+                .setTitle("Eliminar artículo")
+                .setMessage("¿Estás seguro de que deseas eliminar este artículo? Esta acción no se puede deshacer.")
+                .setPositiveButton("Sí") { _, _ ->
+                    val exito = db.eliminarArticulo(articuloId)
+                    if (exito) {
+                        Toast.makeText(this, "Artículo eliminado", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, ListaArticulosActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this, "Error al eliminar el artículo", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .setNegativeButton("Cancelar", null)
+                .show()
         }
 
         btnRegresar.setOnClickListener {
