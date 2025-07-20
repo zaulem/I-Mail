@@ -39,20 +39,7 @@ class DetallesArticuloUsuarioActivity : AppCompatActivity() {
         tvCantidad.text = "Cantidad: $cantidad"
         tvFecha.text = "Fecha de ingreso: $fecha"
 
-        try {
-            if (imagen.startsWith("content://") || imagen.startsWith("file://")) {
-                ivImagen.setImageURI(Uri.parse(imagen))
-            } else {
-                val resId = resources.getIdentifier(imagen, "drawable", packageName)
-                if (resId != 0) {
-                    ivImagen.setImageResource(resId)
-                } else {
-                    ivImagen.setImageResource(R.drawable.placeholder)
-                }
-            }
-        } catch (e: Exception) {
-            ivImagen.setImageResource(R.drawable.placeholder)
-        }
+        cargarImagenDesdeNombre(imagen, ivImagen)
 
         val entrega = db.obtenerEntregaDeArticulo(articuloId)
         if (entrega != null) {
@@ -66,6 +53,23 @@ class DetallesArticuloUsuarioActivity : AppCompatActivity() {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
             finish()
+        }
+
+    }
+    fun cargarImagenDesdeNombre(imagen: String, imageView: ImageView) {
+        try {
+            if (imagen.startsWith("content://") || imagen.startsWith("file://")) {
+                imageView.setImageURI(Uri.parse(imagen))
+            } else {
+                val resId = resources.getIdentifier(imagen, "drawable", packageName)
+                if (resId != 0) {
+                    imageView.setImageResource(resId)
+                } else {
+                    imageView.setImageResource(R.drawable.placeholder)
+                }
+            }
+        } catch (e: Exception) {
+            imageView.setImageResource(R.drawable.placeholder)
         }
     }
 }

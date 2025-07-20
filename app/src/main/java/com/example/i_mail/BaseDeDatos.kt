@@ -47,6 +47,7 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         """)
 
         UsuarioPorDefecto(db)
+        ArticulosPorDefecto(db)
     }
 
     private fun UsuarioPorDefecto(db: SQLiteDatabase) {
@@ -76,6 +77,47 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
             put("departamento", "Mantenimiento")
         }
         db.insert("usuarios", null, usuarioMantenimiento)
+    }
+
+    private fun ArticulosPorDefecto(db: SQLiteDatabase) {
+        val articulos = listOf(
+            ContentValues().apply {
+                put("nombre", "Mouse con cable")
+                put("tipo", "Hardware")
+                put("cantidad", 3)
+                put("estado", "Disponible")
+                put("fechaIngreso", "2025-07-20")
+                put("imagen", "mousefoto")
+            },
+            ContentValues().apply {
+                put("nombre", "Teclado con cable")
+                put("tipo", "Hardware")
+                put("cantidad", 2)
+                put("estado", "Disponible")
+                put("fechaIngreso", "2025-07-20")
+                put("imagen", "tecladofoto")
+            },
+            ContentValues().apply {
+                put("nombre", "Taladro")
+                put("tipo", "Herramienta")
+                put("cantidad", 2)
+                put("estado", "Disponible")
+                put("fechaIngreso", "2025-07-20")
+                put("imagen", "taladrofoto")
+            },
+            ContentValues().apply {
+                put("nombre", "Caja de Herramientas")
+                put("tipo", "Herramienta")
+                put("cantidad", 1)
+                put("estado", "Disponible")
+                put("fechaIngreso", "2025-07-20")
+                put("imagen", "cajafoto")
+            }
+        )
+
+        for (articulo in articulos) {
+            db.insert("articulos", null, articulo)
+        }
     }
 
 
@@ -255,7 +297,6 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         cursor.close()
         return lista
     }
-
 
     fun marcarArticuloComoDisponible(articuloId: Int): Boolean {
         val db = writableDatabase

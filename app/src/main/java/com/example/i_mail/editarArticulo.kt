@@ -123,12 +123,24 @@ class editarArticulo : AppCompatActivity() {
             }
 
             if (!imagenUri.isNullOrEmpty()) {
+                val imagen = imagenUri!!  // Ya sabemos que no es nula ni vacía
                 try {
-                    ivPreview.setImageURI(Uri.parse(imagenUri))
+                    if (imagen.startsWith("content://") || imagen.startsWith("file://")) {
+                        ivPreview.setImageURI(Uri.parse(imagen))
+                    } else {
+                        val resId = resources.getIdentifier(imagen, "drawable", packageName)
+                        if (resId != 0) {
+                            ivPreview.setImageResource(resId)
+                        } else {
+                            ivPreview.setImageResource(R.drawable.placeholder)
+                        }
+                    }
                 } catch (e: Exception) {
                     ivPreview.setImageResource(R.drawable.placeholder)
                 }
             }
+
+
         } else {
             Toast.makeText(this, "Artículo no encontrado", Toast.LENGTH_SHORT).show()
             finish()

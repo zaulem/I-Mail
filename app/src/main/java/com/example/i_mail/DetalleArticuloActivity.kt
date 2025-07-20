@@ -154,21 +154,34 @@ class DetalleArticuloActivity : AppCompatActivity() {
         super.onResume()
         val articuloId = intent.getIntExtra("id", -1)
         if (articuloId != -1) {
-            // Vuelve a cargar los datos actualizados
             val articulo = db.obtenerArticuloPorId(articuloId)
             if (articulo != null) {
-                // Actualiza los TextViews con los nuevos datos
                 findViewById<TextView>(R.id.tvNombre).text = articulo.nombre
                 findViewById<TextView>(R.id.tvTipo).text = "Tipo: ${articulo.tipo}"
                 findViewById<TextView>(R.id.tvCantidad).text = "Cantidad: ${articulo.cantidad}"
                 findViewById<TextView>(R.id.tvEstado).text = "Estado: ${articulo.estado}"
                 findViewById<TextView>(R.id.tvFecha).text = "Fecha de ingreso: ${articulo.fechaIngreso}"
-                val imagenUri = articulo.imagen
-                if (!imagenUri.isNullOrEmpty()) {
-                    findViewById<ImageView>(R.id.ivImagen).setImageURI(Uri.parse(imagenUri))
+
+                val ivImagen = findViewById<ImageView>(R.id.ivImagen)
+                val imagen = articulo.imagen
+
+                try {
+                    if (imagen.startsWith("content://") || imagen.startsWith("file://")) {
+                        ivImagen.setImageURI(Uri.parse(imagen))
+                    } else {
+                        val resId = resources.getIdentifier(imagen, "drawable", packageName)
+                        if (resId != 0) {
+                            ivImagen.setImageResource(resId)
+                        } else {
+                            ivImagen.setImageResource(R.drawable.placeholder)
+                        }
+                    }
+                } catch (e: Exception) {
+                    ivImagen.setImageResource(R.drawable.placeholder)
                 }
             }
         }
     }
+
 
 }
