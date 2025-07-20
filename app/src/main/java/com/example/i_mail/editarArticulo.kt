@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 class editarArticulo : AppCompatActivity() {
 
     private lateinit var etNombre: EditText
-    private lateinit var etTipo: EditText
+    private lateinit var spTipo: Spinner
     private lateinit var etCantidad: EditText
     private lateinit var btnGuardar: Button
     private lateinit var ivPreview: ImageView
@@ -28,18 +28,24 @@ class editarArticulo : AppCompatActivity() {
         setContentView(R.layout.activity_editar_articulo)
 
         etNombre = findViewById(R.id.etNombre)
-        etTipo = findViewById(R.id.etTipo)
+        spTipo = findViewById(R.id.spTipo)
         etCantidad = findViewById(R.id.etCantidad)
         btnGuardar = findViewById(R.id.btnGuardar)
         ivPreview = findViewById(R.id.ivPreview)
-        btnSeleccionarImagen = findViewById(R.id.btnSeleccionarImagen) // Agrega este botón en tu layout
+        btnSeleccionarImagen = findViewById(R.id.btnSeleccionarImagen)
         val btnVolver = findViewById<Button>(R.id.btnVolver)
 
         db = BaseDeDatos(this)
 
+        // Configurar opciones del Spinner
+        val tipos = listOf("Hardware", "Herramienta")
+        val adaptador = ArrayAdapter(this, android.R.layout.simple_spinner_item, tipos)
+        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spTipo.adapter = adaptador
+
         articuloId = intent.getIntExtra("articuloId", -1)
         if (articuloId != -1) {
-            cargarDatosArticulo(articuloId)
+            cargarDatosArticulo(articuloId, tipos)
         } else {
             Toast.makeText(this, "Artículo no válido", Toast.LENGTH_SHORT).show()
             finish()
@@ -55,10 +61,10 @@ class editarArticulo : AppCompatActivity() {
 
         btnGuardar.setOnClickListener {
             val nombre = etNombre.text.toString().trim()
-            val tipo = etTipo.text.toString().trim()
+            val tipo = spTipo.selectedItem.toString()
             val cantidadTexto = etCantidad.text.toString().trim()
 
-            if (nombre.isEmpty() || tipo.isEmpty() || cantidadTexto.isEmpty()) {
+            if (nombre.isEmpty() || cantidadTexto.isEmpty()) {
                 Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -69,14 +75,20 @@ class editarArticulo : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            val articuloExistente = db.obtenerArticuloPorId(articuloId)
+            if (articuloExistente == null) {
+                Toast.makeText(this, "No se encontró el artículo", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val articuloActualizado = Articulo(
                 id = articuloId,
                 nombre = nombre,
                 tipo = tipo,
                 cantidad = cantidad,
-                estado = "", // mantén el estado actual si quieres, o recupéralo antes
-                fechaIngreso = "", // idem
-                imagen = imagenUri ?: ""
+                estado = articuloExistente.estado,
+                fechaIngreso = articuloExistente.fechaIngreso,
+                imagen = imagenUri ?: articuloExistente.imagen
             )
 
             val exito = db.actualizarArticulo(articuloActualizado)
@@ -90,27 +102,31 @@ class editarArticulo : AppCompatActivity() {
 
         btnVolver.setOnClickListener {
             val intent = Intent(this, DetalleArticuloActivity::class.java).apply {
-                putExtra("id", articuloId) // Pasas el id del artículo para que detalle cargue los datos
+                putExtra("id", articuloId)
             }
             startActivity(intent)
-            finish() // Cierra la actividad actual para que no quede en backstack
+            finish()
         }
-
     }
 
-    private fun cargarDatosArticulo(id: Int) {
+    private fun cargarDatosArticulo(id: Int, tipos: List<String>) {
         val articulo = db.obtenerArticuloPorId(id)
         if (articulo != null) {
             etNombre.setText(articulo.nombre)
-            etTipo.setText(articulo.tipo)
             etCantidad.setText(articulo.cantidad.toString())
             imagenUri = articulo.imagen
+
+            // Preseleccionar el tipo en el Spinner
+            val posicionTipo = tipos.indexOf(articulo.tipo)
+            if (posicionTipo != -1) {
+                spTipo.setSelection(posicionTipo)
+            }
 
             if (!imagenUri.isNullOrEmpty()) {
                 try {
                     ivPreview.setImageURI(Uri.parse(imagenUri))
                 } catch (e: Exception) {
-                    ivPreview.setImageResource(R.drawable.placeholder) // o alguna imagen por defecto
+                    ivPreview.setImageResource(R.drawable.placeholder)
                 }
             }
         } else {
@@ -118,8 +134,6 @@ class editarArticulo : AppCompatActivity() {
             finish()
         }
     }
-
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

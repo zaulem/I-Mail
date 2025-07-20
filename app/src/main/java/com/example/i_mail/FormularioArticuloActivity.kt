@@ -1,6 +1,7 @@
 package com.example.i_mail
 
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -12,7 +13,7 @@ import java.util.*
 class FormularioArticuloActivity : AppCompatActivity() {
 
     private lateinit var etNombre: EditText
-    private lateinit var etTipo: EditText
+    private lateinit var spTipo: Spinner
     private lateinit var etCantidad: EditText
     private lateinit var btnGuardar: Button
     private lateinit var btnSeleccionarImagen: Button
@@ -28,7 +29,7 @@ class FormularioArticuloActivity : AppCompatActivity() {
         setContentView(R.layout.activity_formulario_articulo)
 
         etNombre = findViewById(R.id.etNombre)
-        etTipo = findViewById(R.id.etTipo)
+        spTipo = findViewById(R.id.spTipo)
         etCantidad = findViewById(R.id.etCantidad)
         btnGuardar = findViewById(R.id.btnGuardar)
         btnSeleccionarImagen = findViewById(R.id.btnSeleccionarImagen)
@@ -36,6 +37,12 @@ class FormularioArticuloActivity : AppCompatActivity() {
         ivPreview = findViewById(R.id.ivPreview)
 
         db = BaseDeDatos(this)
+
+        // Configurar opciones del Spinner
+        val tipos = listOf("Hardware", "Herramienta")
+        val adaptador = ArrayAdapter(this, android.R.layout.simple_spinner_item, tipos)
+        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spTipo.adapter = adaptador
 
         btnSeleccionarImagen.setOnClickListener {
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
@@ -47,11 +54,11 @@ class FormularioArticuloActivity : AppCompatActivity() {
 
         btnGuardar.setOnClickListener {
             val nombre = etNombre.text.toString().trim()
-            val tipo = etTipo.text.toString().trim()
+            val tipo = spTipo.selectedItem.toString()
             val cantidadTexto = etCantidad.text.toString().trim()
             val fechaActual = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 
-            if (nombre.isEmpty() || tipo.isEmpty() || cantidadTexto.isEmpty() || imagenUri == null) {
+            if (nombre.isEmpty() || cantidadTexto.isEmpty() || imagenUri == null) {
                 Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -92,7 +99,6 @@ class FormularioArticuloActivity : AppCompatActivity() {
         if (requestCode == CODIGO_SELECCION_IMAGEN && resultCode == Activity.RESULT_OK) {
             val uri: Uri? = data?.data
             if (uri != null) {
-                // Pedir permiso persistente para acceder a esta URI más adelante
                 contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 imagenUri = uri.toString()
                 ivPreview.setImageURI(uri)

@@ -5,5 +5,6 @@ data class Usuario(
     val nombre: String,
     val correo: String,
     val password: String,
-    val esAdmin: Boolean = false
+    val esAdmin: Boolean = false,
+    val departamento: String
 )

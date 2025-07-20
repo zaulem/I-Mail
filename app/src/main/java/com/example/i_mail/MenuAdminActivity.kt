@@ -24,16 +24,25 @@ class MenuAdminActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnVerInventario).setOnClickListener {
             startActivity(Intent(this, ListaArticulosActivity::class.java))
         }
-/*
+
         findViewById<Button>(R.id.btnExportarCSV).setOnClickListener {
-            startActivity(Intent(this, ExportarCSVActivity::class.java))
+            val db = BaseDeDatos(this)
+            val articulos = db.obtenerArticulosExportablesAdmin()
+
+            if (articulos.isEmpty()) {
+                Toast.makeText(this, "No hay artículos para exportar", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val archivo = ExportadorCSV.exportarArticulosExtendido(this, articulos)
+            if (archivo != null) {
+                ExportadorCSV.enviarPorCorreo(this, archivo)
+            }
         }
 
-        findViewById<Button>(R.id.btnEnviarCorreo).setOnClickListener {
-            startActivity(Intent(this, EnviarCorreoActivity::class.java))
-        }
 
-*/
+
+
         findViewById<Button>(R.id.btnCerrarSesion).setOnClickListener {
             cerrarSesion()
         }

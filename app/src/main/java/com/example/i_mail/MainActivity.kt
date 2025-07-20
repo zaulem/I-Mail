@@ -20,6 +20,24 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Inicializar SharedPreferences antes de cualquier lógica
+        sharedPreferences = getSharedPreferences("Sesion", MODE_PRIVATE)
+        val sesionActiva = sharedPreferences.getBoolean("sesionActiva", false)
+
+        // Si ya hay sesión activa, redirigir automáticamente
+        if (sesionActiva) {
+            val esAdmin = sharedPreferences.getBoolean("esAdmin", false)
+            val intent = if (esAdmin) {
+                Intent(this, MenuAdminActivity::class.java)
+            } else {
+                Intent(this, MenuUsuarioActivity::class.java)
+            }
+            startActivity(intent)
+            finish()
+            return
+        }
+
         setContentView(R.layout.activity_main)
 
         // Referencias a los elementos de la vista
@@ -28,9 +46,8 @@ class MainActivity : AppCompatActivity() {
         btnIniciarSesion = findViewById(R.id.btnIniciarSesion)
         btnCrearCuenta = findViewById(R.id.btnCrearCuenta)
 
-        // Inicialización de la base de datos y las preferencias
+        // Inicialización de la base de datos
         db = BaseDeDatos(this)
-        sharedPreferences = getSharedPreferences("Sesion", MODE_PRIVATE)
 
         // Botón: Iniciar sesión
         btnIniciarSesion.setOnClickListener {
@@ -48,6 +65,8 @@ class MainActivity : AppCompatActivity() {
                     editor.putString("nombre", usuario.nombre)
                     editor.putString("correo", usuario.correo)
                     editor.putBoolean("esAdmin", usuario.esAdmin)
+                    editor.putString("departamento", usuario.departamento)
+                    editor.putBoolean("sesionActiva", true)
                     editor.apply()
 
                     // Redirigir según el rol

@@ -5,7 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailDB", null, 1) {
+class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailDB", null, 2) {
 
     override fun onCreate(db: SQLiteDatabase) {
         // Tabla de usuarios
@@ -15,7 +15,8 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
                 nombre TEXT NOT NULL,
                 correo TEXT UNIQUE NOT NULL,
                 password TEXT NOT NULL,
-                esAdmin INTEGER DEFAULT 0
+                esAdmin INTEGER DEFAULT 0,
+                departamento TEXT NOT NULL
             )
         """)
 
@@ -45,23 +46,46 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
             )
         """)
 
-        insertarAdminPorDefecto(db)
+        UsuarioPorDefecto(db)
     }
 
-    private fun insertarAdminPorDefecto(db: SQLiteDatabase) {
+    private fun UsuarioPorDefecto(db: SQLiteDatabase) {
         val admin = ContentValues().apply {
             put("nombre", "Admin")
             put("correo", "admin@gmail.com")
-            put("password", "admin123") // En producción, esto debería ir cifrado
+            put("password", "admin123")
             put("esAdmin", 1)
+            put("departamento", "Administración")
         }
         db.insert("usuarios", null, admin)
+
+        val usuarioIT = ContentValues().apply {
+            put("nombre", "Carlos Mendoza")
+            put("correo", "carlos@gmail.com")
+            put("password", "it123")
+            put("esAdmin", 0)
+            put("departamento", "IT")
+        }
+        db.insert("usuarios", null, usuarioIT)
+
+        val usuarioMantenimiento = ContentValues().apply {
+            put("nombre", "Luis González")
+            put("correo", "luis@gmail.com")
+            put("password", "mant123")
+            put("esAdmin", 0)
+            put("departamento", "Mantenimiento")
+        }
+        db.insert("usuarios", null, usuarioMantenimiento)
     }
+
 
     //Metodos para consultas de la base de datos
     fun validarUsuario(correo: String, password: String): Usuario? {
         val db = readableDatabase
-        val cursor = db.rawQuery("SELECT * FROM usuarios WHERE correo = ? AND password = ?", arrayOf(correo, password))
+        val cursor = db.rawQuery(
+            "SELECT * FROM usuarios WHERE correo = ? AND password = ?",
+            arrayOf(correo, password)
+        )
 
         return if (cursor.moveToFirst()) {
             Usuario(
@@ -69,7 +93,8 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
                 nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
                 correo = correo,
                 password = password,
-                esAdmin = cursor.getInt(cursor.getColumnIndexOrThrow("esAdmin")) == 1
+                esAdmin = cursor.getInt(cursor.getColumnIndexOrThrow("esAdmin")) == 1,
+                departamento = cursor.getString(cursor.getColumnIndexOrThrow("departamento"))
             )
         } else {
             null
@@ -78,6 +103,7 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         }
     }
 
+
     fun registrarUsuario(usuario: Usuario): Boolean {
         val db = writableDatabase
         val valores = ContentValues().apply {
@@ -85,10 +111,12 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
             put("correo", usuario.correo)
             put("password", usuario.password)
             put("esAdmin", if (usuario.esAdmin) 1 else 0)
+            put("departamento", usuario.departamento)
         }
         val resultado = db.insert("usuarios", null, valores)
         return resultado != -1L
     }
+
 
     fun insertarArticulo(articulo: Articulo): Long {
         val db = writableDatabase
@@ -115,7 +143,8 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
                     nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
                     correo = cursor.getString(cursor.getColumnIndexOrThrow("correo")),
                     password = cursor.getString(cursor.getColumnIndexOrThrow("password")),
-                    esAdmin = cursor.getInt(cursor.getColumnIndexOrThrow("esAdmin")) == 1
+                    esAdmin = cursor.getInt(cursor.getColumnIndexOrThrow("esAdmin")) == 1,
+                    departamento = cursor.getString(cursor.getColumnIndexOrThrow("departamento"))
                 )
                 usuarios.add(usuario)
             } while (cursor.moveToNext())
@@ -124,6 +153,7 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         cursor.close()
         return usuarios
     }
+
 
 
 
@@ -198,6 +228,38 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         }
     }
 
+    fun obtenerArticulosPorDepartamento(departamento: String): List<Articulo> {
+        val db = readableDatabase
+
+        // Mapeo simple entre departamento y tipo de artículo
+        val tipoRelacionado = when (departamento) {
+            "IT" -> "Hardware"
+            "Mantenimiento" -> "Herramienta"
+            else -> "Otro"
+        }
+
+        val cursor = db.rawQuery("SELECT * FROM articulos WHERE tipo = ?", arrayOf(tipoRelacionado))
+        val lista = mutableListOf<Articulo>()
+
+        while (cursor.moveToNext()) {
+            lista.add(
+                Articulo(
+                    id = cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                    nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
+                    tipo = cursor.getString(cursor.getColumnIndexOrThrow("tipo")),
+                    cantidad = cursor.getInt(cursor.getColumnIndexOrThrow("cantidad")),
+                    estado = cursor.getString(cursor.getColumnIndexOrThrow("estado")),
+                    fechaIngreso = cursor.getString(cursor.getColumnIndexOrThrow("fechaIngreso")),
+                    imagen = cursor.getString(cursor.getColumnIndexOrThrow("imagen"))
+                )
+            )
+        }
+
+        cursor.close()
+        return lista
+    }
+
+
     fun marcarArticuloComoDisponible(articuloId: Int): Boolean {
         val db = writableDatabase
         val valores = ContentValues().apply {
@@ -236,6 +298,70 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
             )
         } else null
     }
+
+    fun obtenerArticulosExportablesAdmin(): List<ArticuloExportado> {
+        val db = readableDatabase
+        val query = """
+        SELECT a.id, a.nombre, a.tipo, a.cantidad, a.estado, a.fechaIngreso,
+               u.nombre AS asignadoA, e.fechaEntrega
+        FROM articulos a
+        LEFT JOIN entregas e ON a.id = e.articuloId
+        LEFT JOIN usuarios u ON e.usuarioId = u.id
+        GROUP BY a.id
+    """
+        val cursor = db.rawQuery(query, null)
+        val lista = mutableListOf<ArticuloExportado>()
+
+        while (cursor.moveToNext()) {
+            val articulo = ArticuloExportado(
+                id = cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
+                tipo = cursor.getString(cursor.getColumnIndexOrThrow("tipo")),
+                cantidad = cursor.getInt(cursor.getColumnIndexOrThrow("cantidad")),
+                estado = cursor.getString(cursor.getColumnIndexOrThrow("estado")),
+                fechaIngreso = cursor.getString(cursor.getColumnIndexOrThrow("fechaIngreso")),
+                asignadoA = cursor.getString(cursor.getColumnIndexOrThrow("asignadoA")),
+                fechaEntrega = cursor.getString(cursor.getColumnIndexOrThrow("fechaEntrega"))
+            )
+            lista.add(articulo)
+        }
+
+        cursor.close()
+        return lista
+    }
+
+    fun obtenerArticulosExportablesPorDepartamento(departamento: String): List<ArticuloExportado> {
+        val db = readableDatabase
+        val query = """
+        SELECT a.id, a.nombre, a.tipo, a.cantidad, a.estado, a.fechaIngreso,
+               u.nombre AS asignadoA, e.fechaEntrega
+        FROM articulos a
+        LEFT JOIN entregas e ON a.id = e.articuloId
+        LEFT JOIN usuarios u ON e.usuarioId = u.id
+        WHERE a.tipo = ?
+        GROUP BY a.id
+    """
+        val cursor = db.rawQuery(query, arrayOf(departamento))
+        val lista = mutableListOf<ArticuloExportado>()
+
+        while (cursor.moveToNext()) {
+            val articulo = ArticuloExportado(
+                id = cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
+                tipo = cursor.getString(cursor.getColumnIndexOrThrow("tipo")),
+                cantidad = cursor.getInt(cursor.getColumnIndexOrThrow("cantidad")),
+                estado = cursor.getString(cursor.getColumnIndexOrThrow("estado")),
+                fechaIngreso = cursor.getString(cursor.getColumnIndexOrThrow("fechaIngreso")),
+                asignadoA = cursor.getString(cursor.getColumnIndexOrThrow("asignadoA")),
+                fechaEntrega = cursor.getString(cursor.getColumnIndexOrThrow("fechaEntrega"))
+            )
+            lista.add(articulo)
+        }
+
+        cursor.close()
+        return lista
+    }
+
 
     fun eliminarArticulo(id: Int): Boolean {
         val db = writableDatabase

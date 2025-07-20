@@ -24,14 +24,14 @@
             android:id="@+id/btnRegistrarArticulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📦 Registrar artículo nuevo"
+            android:text="Registrar artículo nuevo"
             android:minHeight="48dp" />
 
         <Button
             android:id="@+id/btnVerInventario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📋 Ver inventario completo"
+            android:text="Ver inventario completo"
             android:minHeight="48dp"
             android:layout_marginTop="12dp" />
 
@@ -39,15 +39,7 @@
             android:id="@+id/btnExportarCSV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📤 Exportar inventario a CSV"
-            android:minHeight="48dp"
-            android:layout_marginTop="12dp" />
-
-        <Button
-            android:id="@+id/btnEnviarCorreo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="📧 Enviar inventario por correo"
+            android:text="Exportar inventario a CSV"
             android:minHeight="48dp"
             android:layout_marginTop="12dp" />
 

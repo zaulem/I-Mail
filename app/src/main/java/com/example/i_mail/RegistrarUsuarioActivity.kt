@@ -44,6 +44,7 @@ class RegistrarUsuarioActivity : AppCompatActivity() {
                     nombre = nombre,
                     correo = correo,
                     password = password,
+                    departamento = "",
                     esAdmin = false
                 )
 
