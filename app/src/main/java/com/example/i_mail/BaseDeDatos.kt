@@ -154,9 +154,6 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         return usuarios
     }
 
-
-
-
     fun obtenerArticulos(): List<Articulo> {
         val articulos = mutableListOf<Articulo>()
         val db = readableDatabase
@@ -332,6 +329,13 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
 
     fun obtenerArticulosExportablesPorDepartamento(departamento: String): List<ArticuloExportado> {
         val db = readableDatabase
+
+        val tipoRelacionado = when (departamento) {
+            "IT" -> "Hardware"
+            "Mantenimiento" -> "Herramienta"
+            else -> "Otro"
+        }
+
         val query = """
         SELECT a.id, a.nombre, a.tipo, a.cantidad, a.estado, a.fechaIngreso,
                u.nombre AS asignadoA, e.fechaEntrega
@@ -341,7 +345,8 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         WHERE a.tipo = ?
         GROUP BY a.id
     """
-        val cursor = db.rawQuery(query, arrayOf(departamento))
+
+        val cursor = db.rawQuery(query, arrayOf(tipoRelacionado))
         val lista = mutableListOf<ArticuloExportado>()
 
         while (cursor.moveToNext()) {
@@ -361,6 +366,7 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         cursor.close()
         return lista
     }
+
 
 
     fun eliminarArticulo(id: Int): Boolean {

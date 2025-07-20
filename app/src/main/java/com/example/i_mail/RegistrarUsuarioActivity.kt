@@ -2,15 +2,14 @@ package com.example.i_mail
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
 class RegistrarUsuarioActivity : AppCompatActivity() {
 
     private lateinit var etNombre: EditText
     private lateinit var etCorreo: EditText
+    private lateinit var spDepartamento: Spinner
     private lateinit var etPassword: EditText
     private lateinit var etConfirmar: EditText
     private lateinit var btnRegistrar: Button
@@ -23,17 +22,25 @@ class RegistrarUsuarioActivity : AppCompatActivity() {
 
         etNombre = findViewById(R.id.etNombre)
         etCorreo = findViewById(R.id.etCorreo)
+        spDepartamento = findViewById(R.id.spDepartamento)
         etPassword = findViewById(R.id.etPassword)
         etConfirmar = findViewById(R.id.etConfirmar)
         btnRegistrar = findViewById(R.id.btnRegistrar)
 
         db = BaseDeDatos(this)
 
+        // Cargar departamentos en el Spinner
+        val departamentos = listOf("Mantenimiento", "IT")
+        val adaptadorSpinner = ArrayAdapter(this, android.R.layout.simple_spinner_item, departamentos)
+        adaptadorSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spDepartamento.adapter = adaptadorSpinner
+
         btnRegistrar.setOnClickListener {
             val nombre = etNombre.text.toString().trim()
             val correo = etCorreo.text.toString().trim()
             val password = etPassword.text.toString().trim()
             val confirmar = etConfirmar.text.toString().trim()
+            val departamentoSeleccionado = spDepartamento.selectedItem.toString()
 
             if (nombre.isEmpty() || correo.isEmpty() || password.isEmpty() || confirmar.isEmpty()) {
                 Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show()
@@ -44,7 +51,7 @@ class RegistrarUsuarioActivity : AppCompatActivity() {
                     nombre = nombre,
                     correo = correo,
                     password = password,
-                    departamento = "",
+                    departamento = departamentoSeleccionado,
                     esAdmin = false
                 )
 
@@ -60,3 +67,4 @@ class RegistrarUsuarioActivity : AppCompatActivity() {
         }
     }
 }
+
