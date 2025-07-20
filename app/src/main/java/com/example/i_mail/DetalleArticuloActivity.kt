@@ -30,7 +30,6 @@ class DetalleArticuloActivity : AppCompatActivity() {
         val btnAsignar = findViewById<Button>(R.id.btnAsignar)
         val btnEditar = findViewById<Button>(R.id.btnEditar)
         val btnEliminar = findViewById<Button>(R.id.btnEliminar)
-        val btnRegresar = findViewById<Button>(R.id.btnRegresar)
         val btnMenu = findViewById<Button>(R.id.btnMenu)
 
         val articuloId = intent.getIntExtra("id", -1)
@@ -130,7 +129,7 @@ class DetalleArticuloActivity : AppCompatActivity() {
                     val exito = db.eliminarArticulo(articuloId)
                     if (exito) {
                         Toast.makeText(this, "Artículo eliminado", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, ListaArticulosActivity::class.java)
+                        val intent = Intent(this, MenuAdminActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
                         finish()
@@ -140,13 +139,6 @@ class DetalleArticuloActivity : AppCompatActivity() {
                 }
                 .setNegativeButton("Cancelar", null)
                 .show()
-        }
-
-        btnRegresar.setOnClickListener {
-            val intent = Intent(this, ListaArticulosActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-            finish()
         }
 
         btnMenu.setOnClickListener {

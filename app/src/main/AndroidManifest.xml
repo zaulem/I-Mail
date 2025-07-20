@@ -40,9 +40,7 @@
         <activity
             android:name=".DetalleArticuloActivity"
             android:exported="false" />
-        <activity
-            android:name=".ListaArticulosActivity"
-            android:exported="false" />
+
         <activity
             android:name=".FormularioArticuloActivity"
             android:exported="false"
