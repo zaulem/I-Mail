@@ -45,6 +45,12 @@ class MenuAdminActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnCerrarSesion).setOnClickListener {
             cerrarSesion()
         }
+
+        // NUEVO: Botón Actualizar (opcional)
+        findViewById<Button>(R.id.btnRefresh).setOnClickListener {
+            cargarArticulos()
+            Toast.makeText(this, "Lista actualizada", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onResume() {
@@ -73,6 +79,33 @@ class MenuAdminActivity : AppCompatActivity() {
                 putExtra("imagen", articulo.imagen)
             }
             startActivity(intent)
+        }
+
+        // NUEVO: Actualizar estadísticas después de cargar artículos
+        actualizarEstadisticas()
+    }
+
+    // NUEVA FUNCIÓN: Actualizar las estadísticas en las cards
+    private fun actualizarEstadisticas() {
+        try {
+            // Obtener estadísticas de la base de datos
+            val totalArticulos = db.contarTotalArticulos()
+            val disponibles = db.contarArticulosPorEstado("Disponible")
+            val asignados = db.contarArticulosPorEstado("Asignado")
+
+            // Actualizar los TextViews de estadísticas
+            findViewById<TextView>(R.id.tvTotalArticulos).text = totalArticulos.toString()
+            findViewById<TextView>(R.id.tvDisponibles).text = disponibles.toString()
+            findViewById<TextView>(R.id.tvAsignados).text = asignados.toString()
+
+        } catch (e: Exception) {
+            // En caso de error, mostrar 0 en las estadísticas
+            findViewById<TextView>(R.id.tvTotalArticulos).text = "0"
+            findViewById<TextView>(R.id.tvDisponibles).text = "0"
+            findViewById<TextView>(R.id.tvAsignados).text = "0"
+
+            // Opcional: mostrar mensaje de error solo en desarrollo
+            // Toast.makeText(this, "Error al cargar estadísticas", Toast.LENGTH_SHORT).show()
         }
     }
 

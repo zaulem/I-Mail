@@ -422,6 +422,86 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         return filasAfectadas > 0
     }
 
+    // ====== FUNCIONES DE ESTADÍSTICAS ======
+// Agregar estas funciones al final de tu clase BaseDeDatos, antes del onUpgrade
+
+    /**
+     * Cuenta el total de artículos registrados en el sistema
+     * @return Número total de artículos
+     */
+    fun contarTotalArticulos(): Int {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT COUNT(*) FROM articulos", null)
+        var total = 0
+        if (cursor.moveToFirst()) {
+            total = cursor.getInt(0)
+        }
+        cursor.close()
+        return total
+    }
+
+    /**
+     * Cuenta artículos por estado específico
+     * @param estado El estado a contar (ej: "Disponible", "Asignado")
+     * @return Número de artículos con ese estado
+     */
+    fun contarArticulosPorEstado(estado: String): Int {
+        val db = readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT COUNT(*) FROM articulos WHERE estado = ?",
+            arrayOf(estado)
+        )
+        var total = 0
+        if (cursor.moveToFirst()) {
+            total = cursor.getInt(0)
+        }
+        cursor.close()
+        return total
+    }
+
+    /**
+     * Obtiene estadísticas completas del inventario
+     * @return Map con todas las estadísticas
+     */
+    fun obtenerEstadisticasCompletas(): Map<String, Int> {
+        val db = readableDatabase
+        val estadisticas = mutableMapOf<String, Int>()
+
+        // Total de artículos
+        val cursorTotal = db.rawQuery("SELECT COUNT(*) FROM articulos", null)
+        if (cursorTotal.moveToFirst()) {
+            estadisticas["total"] = cursorTotal.getInt(0)
+        }
+        cursorTotal.close()
+
+        // Conteo por estados
+        val cursorEstados = db.rawQuery(
+            "SELECT estado, COUNT(*) FROM articulos GROUP BY estado",
+            null
+        )
+
+        // Inicializar contadores en 0
+        estadisticas["disponible"] = 0
+        estadisticas["asignado"] = 0
+        estadisticas["mantenimiento"] = 0
+        estadisticas["retirado"] = 0
+
+        while (cursorEstados.moveToNext()) {
+            val estado = cursorEstados.getString(0)?.lowercase() ?: ""
+            val cantidad = cursorEstados.getInt(1)
+
+            when (estado) {
+                "disponible" -> estadisticas["disponible"] = cantidad
+                "asignado" -> estadisticas["asignado"] = cantidad
+                "mantenimiento" -> estadisticas["mantenimiento"] = cantidad
+                "retirado" -> estadisticas["retirado"] = cantidad
+            }
+        }
+        cursorEstados.close()
+
+        return estadisticas
+    }
+
 
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {

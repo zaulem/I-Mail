@@ -1,56 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="12dp"
-    android:background="#E0E0E0">
-
-    <ImageView
-        android:id="@+id/ivArticulo"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginEnd="12dp"
-        android:src="@drawable/placeholder" />
+    app:cardBackgroundColor="@color/superficie_tarjeta"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/tvNombre"
+        <!-- Imagen compacta -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="1dp"
+            app:cardBackgroundColor="@color/superficie_elevada"
+            android:layout_marginEnd="12dp">
+
+            <ImageView
+                android:id="@+id/ivArticulo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/placeholder" />
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Información principal -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Nombre -->
+            <TextView
+                android:id="@+id/tvNombre"
+                style="@style/TextoCuerpo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre del artículo"
+                android:textColor="@color/texto_principal"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginBottom="4dp" />
+
+            <!-- Tipo y cantidad en línea -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvTipo"
+                    style="@style/TextoSubtitulo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tipo: Hardware"
+                    android:textColor="@color/texto_secundario" />
+
+                <TextView
+                    android:id="@+id/tvCantidad"
+                    style="@style/TextoSubtitulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cant: 0"
+                    android:textColor="@color/texto_secundario"
+                    android:layout_marginStart="8dp" />
+
+            </LinearLayout>
+
+            <!-- Estado (mantenemos el TextView original) -->
+            <TextView
+                android:id="@+id/tvEstado"
+                style="@style/TextoSubtitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estado: Disponible"
+                android:textColor="@color/texto_secundario"
+                android:layout_marginTop="2dp" />
+
+        </LinearLayout>
+
+        <!-- Chip de estado visual -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/chipEstado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nombre del artículo"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:textColor="#000000" />
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/estado_disponible"
+            android:layout_marginStart="8dp">
 
-        <TextView
-            android:id="@+id/tvTipo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tipo: Hardware"
-            android:textSize="14sp"
-            android:textColor="#333333" />
+            <TextView
+                android:id="@+id/tvEstadoChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Disponible"
+                android:textColor="@color/texto_principal"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif-medium"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp" />
 
-        <TextView
-            android:id="@+id/tvCantidad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cantidad: 0"
-            android:textSize="14sp"
-            android:textColor="#333333" />
+        </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/tvEstado"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Estado: Disponible"
-            android:textSize="14sp"
-            android:textColor="#333333" />
     </LinearLayout>
-</LinearLayout>
+
+</androidx.cardview.widget.CardView>

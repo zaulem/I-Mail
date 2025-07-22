@@ -1,5 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Colores principales de la marca -->
+    <color name="oscuro_principal">#181718</color>
+    <color name="fondo_principal">#1A1A27</color>
+    <color name="fondo_secundario">#2A2A37</color>
+
+    <!-- Colores de acento -->
+    <color name="azul_acento">#4A90E2</color>
+    <color name="verde_acento">#27AE60</color>
+    <color name="naranja_acento">#F39C12</color>
+    <color name="rojo_acento">#E74C3C</color>
+
+    <!-- Colores de texto -->
+    <color name="texto_principal">#FFFFFF</color>
+    <color name="texto_secundario">#B8B8CC</color>
+    <color name="texto_sugerencia">#707082</color>
+
+    <!-- Colores de superficie -->
+    <color name="superficie_tarjeta">#2C2C39</color>
+    <color name="superficie_elevada">#363646</color>
+    <color name="superficie_superpuesta">#3A3A4A</color>
+
+    <!-- Estados de botones -->
+    <color name="boton_principal">#4A90E2</color>
+    <color name="boton_principal_presionado">#3A7BD5</color>
+    <color name="boton_secundario">#2C2C39</color>
+    <color name="boton_secundario_presionado">#3A3A4A</color>
+    <color name="boton_exito">#27AE60</color>
+    <color name="boton_advertencia">#F39C12</color>
+    <color name="boton_peligro">#E74C3C</color>
+
+    <!-- Bordes y divisores -->
+    <color name="divisor">#3A3A4A</color>
+    <color name="borde_claro">#4A4A5A</color>
+    <color name="borde_enfoque">#4A90E2</color>
+
+    <!-- Estados de elementos -->
+    <color name="exito">#27AE60</color>
+    <color name="advertencia">#F39C12</color>
+    <color name="error">#E74C3C</color>
+    <color name="informacion">#3498DB</color>
+
+    <!-- Transparencias -->
+    <color name="superposicion_oscura">#80000000</color>
+    <color name="superposicion_clara">#40FFFFFF</color>
+
+    <!-- Estados de inventario -->
+    <color name="estado_disponible">#27AE60</color>
+    <color name="estado_asignado">#F39C12</color>
+    <color name="estado_mantenimiento">#E74C3C</color>
+    <color name="estado_retirado">#95A5A6</color>
 </resources>

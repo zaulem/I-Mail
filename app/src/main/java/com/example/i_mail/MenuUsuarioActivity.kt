@@ -13,8 +13,6 @@ class MenuUsuarioActivity : AppCompatActivity() {
     private lateinit var db: BaseDeDatos
     private lateinit var departamento: String
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu_usuario)
@@ -23,10 +21,11 @@ class MenuUsuarioActivity : AppCompatActivity() {
         db = BaseDeDatos(this)
         listView = findViewById(R.id.listViewArticulos)
 
-
-
         // Obtener el departamento del usuario desde la sesión
         departamento = sharedPreferences.getString("departamento", "") ?: ""
+
+        // NUEVO: Configurar bienvenida personalizada
+        configurarBienvenida()
 
         cargarArticulos()
 
@@ -48,11 +47,34 @@ class MenuUsuarioActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnCerrarSesion).setOnClickListener {
             cerrarSesion()
         }
+
+        //Botón actualizar (opcional)
+        findViewById<Button>(R.id.btnRefresh).setOnClickListener {
+            cargarArticulos()
+            Toast.makeText(this, "Lista actualizada", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onResume() {
         super.onResume()
         cargarArticulos()
+    }
+
+    //Configurar bienvenida personalizada
+    private fun configurarBienvenida() {
+        try {
+            // Obtener nombre del usuario desde SharedPreferences
+            val nombreUsuario = sharedPreferences.getString("nombre", "Usuario") ?: "Usuario"
+
+            // Configurar textos de bienvenida
+            findViewById<TextView>(R.id.tvBienvenidaUsuario).text = "Bienvenido, $nombreUsuario"
+            findViewById<TextView>(R.id.tvDepartamentoUsuario).text = "Departamento: $departamento"
+
+        } catch (e: Exception) {
+            // En caso de error, mostrar valores por defecto
+            findViewById<TextView>(R.id.tvBienvenidaUsuario).text = "Bienvenido, Usuario"
+            findViewById<TextView>(R.id.tvDepartamentoUsuario).text = "Departamento: $departamento"
+        }
     }
 
     private fun cargarArticulos() {
@@ -76,6 +98,32 @@ class MenuUsuarioActivity : AppCompatActivity() {
                 putExtra("imagen", articulo.imagen)
             }
             startActivity(intent)
+        }
+
+        // Actualizar estadísticas del departamento
+        actualizarEstadisticasDepartamento()
+    }
+
+    // Actualizar estadísticas del departamento
+    private fun actualizarEstadisticasDepartamento() {
+        try {
+            // Obtener artículos del departamento para contar estadísticas
+            val articulosDepartamento = db.obtenerArticulosPorDepartamento(departamento)
+
+            val totalArticulos = articulosDepartamento.size
+            val disponibles = articulosDepartamento.count { it.estado == "Disponible" }
+            val asignados = articulosDepartamento.count { it.estado == "Asignado" }
+
+            // Actualizar los TextViews de estadísticas
+            findViewById<TextView>(R.id.tvTotalArticulos).text = totalArticulos.toString()
+            findViewById<TextView>(R.id.tvDisponibles).text = disponibles.toString()
+            findViewById<TextView>(R.id.tvAsignados).text = asignados.toString()
+
+        } catch (e: Exception) {
+            // En caso de error, mostrar 0 en las estadísticas
+            findViewById<TextView>(R.id.tvTotalArticulos).text = "0"
+            findViewById<TextView>(R.id.tvDisponibles).text = "0"
+            findViewById<TextView>(R.id.tvAsignados).text = "0"
         }
     }
 

@@ -1,92 +1,293 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistrarUsuarioActivity"
-    android:padding="24dp">
+    android:background="@color/fondo_principal"
+    android:fillViewport="true">
 
-    <TextView
-        android:id="@+id/tvTituloRegistro"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Crear nueva cuenta"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp" />
+        tools:context=".RegistrarUsuarioActivity"
+        android:padding="24dp">
 
-    <EditText
-        android:id="@+id/etNombre"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Nombre completo"
-        android:minHeight="48dp"
-        app:layout_constraintTop_toBottomOf="@id/tvTituloRegistro"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp" />
+        <!-- Header del registro -->
+        <LinearLayout
+            android:id="@+id/headerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp">
 
-    <EditText
-        android:id="@+id/etCorreo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Correo electrónico"
-        android:inputType="textEmailAddress"
-        android:minHeight="48dp"
-        app:layout_constraintTop_toBottomOf="@id/etNombre"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+            <!-- Título principal -->
+            <TextView
+                android:id="@+id/tvTituloRegistro"
+                style="@style/TituloGrande"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Crear Nueva Cuenta"
+                android:textColor="@color/texto_principal"
+                android:layout_marginBottom="0dp" />
 
-    <Spinner
-        android:id="@+id/spDepartamento"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/etCorreo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+            <!-- Subtítulo -->
+            <TextView
+                android:id="@+id/tvSubtituloRegistro"
+                style="@style/TextoCuerpoSecundario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Únete al sistema de inventario"
+                android:textColor="@color/texto_secundario"
+                android:layout_marginTop="8dp" />
 
+        </LinearLayout>
 
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Contraseña"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        app:layout_constraintTop_toBottomOf="@id/spDepartamento"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        <!-- Card contenedor del formulario -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardRegistro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/superficie_tarjeta"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:layout_constraintTop_toBottomOf="@id/headerLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp">
 
-    <EditText
-        android:id="@+id/etConfirmar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Confirmar contraseña"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        app:layout_constraintTop_toBottomOf="@id/etPassword"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
 
-    <Button
-        android:id="@+id/btnRegistrar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Registrarme"
-        android:minHeight="48dp"
-        app:layout_constraintTop_toBottomOf="@id/etConfirmar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp" />
+                <!-- Título del formulario -->
+                <TextView
+                    style="@style/TituloPequeno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Información Personal"
+                    android:textColor="@color/texto_principal"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="20dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <!-- Campo nombre -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilNombre"
+                    style="@style/CampoEntrada"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nombre completo"
+                    app:startIconDrawable="@android:drawable/ic_menu_myplaces"
+                    app:startIconTint="@color/azul_acento"
+                    app:hintTextColor="@color/texto_sugerencia"
+                    app:boxStrokeColor="@color/azul_acento"
+                    android:layout_marginBottom="12dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etNombre"
+                        style="@style/TextoEntrada"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/texto_principal"
+                        android:textColorHint="@color/texto_sugerencia" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Campo correo -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilCorreo"
+                    style="@style/CampoEntrada"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Correo electrónico"
+                    app:startIconDrawable="@android:drawable/ic_dialog_email"
+                    app:startIconTint="@color/azul_acento"
+                    app:hintTextColor="@color/texto_sugerencia"
+                    app:boxStrokeColor="@color/azul_acento"
+                    android:layout_marginBottom="12dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCorreo"
+                        style="@style/TextoEntrada"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/texto_principal"
+                        android:textColorHint="@color/texto_sugerencia" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Campo departamento con diseño mejorado -->
+                <TextView
+                    style="@style/TextoCuerpoSecundario"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Departamento"
+                    android:textColor="@color/texto_secundario"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="4dp" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/superficie_elevada"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="2dp"
+                    android:layout_marginBottom="16dp">
+
+                    <Spinner
+                        android:id="@+id/spDepartamento"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="52dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:background="@android:color/transparent" />
+
+                </androidx.cardview.widget.CardView>
+
+                <!-- Divisor -->
+                <View
+                    style="@style/Divisor"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Título de seguridad -->
+                <TextView
+                    style="@style/TituloPequeno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Seguridad de la Cuenta"
+                    android:textColor="@color/texto_principal"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Campo contraseña -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilPassword"
+                    style="@style/CampoEntrada"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Contraseña"
+                    app:startIconDrawable="@android:drawable/ic_lock_lock"
+                    app:startIconTint="@color/azul_acento"
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="@color/azul_acento"
+                    app:hintTextColor="@color/texto_sugerencia"
+                    app:boxStrokeColor="@color/azul_acento"
+                    android:layout_marginBottom="12dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPassword"
+                        style="@style/TextoEntrada"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:textColor="@color/texto_principal"
+                        android:textColorHint="@color/texto_sugerencia" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Campo confirmar contraseña -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilConfirmar"
+                    style="@style/CampoEntrada"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Confirmar contraseña"
+                    app:startIconDrawable="@android:drawable/ic_lock_lock"
+                    app:startIconTint="@color/verde_acento"
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="@color/verde_acento"
+                    app:hintTextColor="@color/texto_sugerencia"
+                    app:boxStrokeColor="@color/verde_acento"
+                    android:layout_marginBottom="24dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etConfirmar"
+                        style="@style/TextoEntrada"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:textColor="@color/texto_principal"
+                        android:textColorHint="@color/texto_sugerencia" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Botón registrar -->
+                <Button
+                    android:id="@+id/btnRegistrar"
+                    style="@style/BotonPrincipal"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="✓ Crear Mi Cuenta"
+                    android:textColor="@color/texto_principal"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium"
+                    app:cornerRadius="12dp"
+                    app:backgroundTint="@color/azul_acento"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Información adicional -->
+                <TextView
+                    style="@style/TextoSubtitulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Al registrarte, aceptas formar parte del sistema de inventario"
+                    android:textColor="@color/texto_sugerencia"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Enlace para volver al login -->
+        <LinearLayout
+            android:id="@+id/layoutFooter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/cardRegistro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                style="@style/TextoCuerpoSecundario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¿Ya tienes cuenta? "
+                android:textColor="@color/texto_secundario" />
+
+            <TextView
+                android:id="@+id/tvIrLogin"
+                style="@style/TextoCuerpoSecundario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Iniciar Sesión"
+                android:textColor="@color/azul_acento"
+                android:textStyle="bold"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

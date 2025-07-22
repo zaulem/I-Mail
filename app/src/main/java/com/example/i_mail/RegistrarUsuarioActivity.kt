@@ -65,6 +65,10 @@ class RegistrarUsuarioActivity : AppCompatActivity() {
                 }
             }
         }
+
+        //Enlace para volver al login
+        findViewById<TextView>(R.id.tvIrLogin).setOnClickListener {
+            finish() // Vuelve al MainActivity (pantalla de login)
+        }
     }
 }
-

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Tema principal de la aplicación -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/azul_acento</item>
+        <item name="colorPrimaryDark">@color/oscuro_principal</item>
+        <item name="colorAccent">@color/azul_acento</item>
+        <item name="android:windowBackground">@color/fondo_principal</item>
+        <item name="android:statusBarColor">@color/oscuro_principal</item>
+        <item name="android:navigationBarColor">@color/oscuro_principal</item>
+        <item name="android:textColorPrimary">@color/texto_principal</item>
+        <item name="android:textColorSecondary">@color/texto_secundario</item>
+    </style>
+
+    <!-- Estilos de títulos -->
+    <style name="TituloGrande">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">@color/texto_principal</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <style name="TituloMedio">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/texto_principal</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:layout_marginBottom">6dp</item>
+    </style>
+
+    <style name="TituloPequeno">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/texto_principal</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:layout_marginBottom">4dp</item>
+    </style>
+
+    <!-- Estilos de texto -->
+    <style name="TextoCuerpo">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/texto_principal</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+    </style>
+
+    <style name="TextoCuerpoSecundario">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/texto_secundario</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="TextoSubtitulo">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/texto_sugerencia</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <!-- Estilos de botones -->
+    <style name="BotonPrincipal" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/boton_principal</item>
+        <item name="android:textColor">@color/texto_principal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="cornerRadius">8dp</item>
+    </style>
+
+    <style name="BotonSecundario" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/borde_claro</item>
+        <item name="android:textColor">@color/texto_principal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="cornerRadius">8dp</item>
+    </style>
+
+    <style name="BotonExito" parent="BotonPrincipal">
+        <item name="backgroundTint">@color/boton_exito</item>
+    </style>
+
+    <style name="BotonAdvertencia" parent="BotonPrincipal">
+        <item name="backgroundTint">@color/boton_advertencia</item>
+    </style>
+
+    <style name="BotonPeligro" parent="BotonPrincipal">
+        <item name="backgroundTint">@color/boton_peligro</item>
+    </style>
+
+    <!-- Estilos de cards -->
+    <style name="EstiloTarjeta">
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="cardBackgroundColor">@color/superficie_tarjeta</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <!-- Estilos de input fields -->
+    <style name="CampoEntrada" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="boxStrokeColor">@color/borde_enfoque</item>
+        <item name="hintTextColor">@color/texto_sugerencia</item>
+        <item name="android:textColorHint">@color/texto_sugerencia</item>
+    </style>
+
+    <style name="TextoEntrada" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textColor">@color/texto_principal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <!-- Toolbar personalizada -->
+    <style name="BarraHerramientasPersonalizada" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:background">@color/superficie_elevada</item>
+        <item name="titleTextColor">@color/texto_principal</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
+    <!-- Divisores -->
+    <style name="Divisor">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/divisor</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+</resources>

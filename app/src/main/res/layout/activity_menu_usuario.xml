@@ -1,45 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/fondo_principal">
 
-    <!-- Lista de artículos en la parte superior -->
-    <TextView
-        android:id="@+id/tvTituloLista"
-        android:layout_width="wrap_content"
+    <!-- Header del usuario -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="📋 Artículos registrados"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#000000"
-        android:layout_marginBottom="8dp" />
+        android:background="@color/superficie_elevada"
+        android:elevation="4dp"
+        android:orientation="vertical"
+        android:padding="16dp">
 
+        <!-- Bienvenida personalizada -->
+        <TextView
+            android:id="@+id/tvBienvenidaUsuario"
+            style="@style/TituloMedio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bienvenido, Usuario"
+            android:textColor="@color/texto_principal"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvDepartamentoUsuario"
+            style="@style/TextoCuerpoSecundario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Departamento: IT"
+            android:textColor="@color/texto_secundario" />
+
+        <!-- Estadísticas del departamento -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="12dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvTotalArticulos"
+                    style="@style/TituloPequeno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/azul_acento"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginEnd="4dp" />
+
+                <TextView
+                    style="@style/TextoSubtitulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total"
+                    android:textColor="@color/texto_secundario" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:background="@color/divisor"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvDisponibles"
+                    style="@style/TituloPequeno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/verde_acento"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginEnd="4dp" />
+
+                <TextView
+                    style="@style/TextoSubtitulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Disponibles"
+                    android:textColor="@color/texto_secundario" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:background="@color/divisor"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvAsignados"
+                    style="@style/TituloPequeno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/naranja_acento"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginEnd="4dp" />
+
+                <TextView
+                    style="@style/TextoSubtitulo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Asignados"
+                    android:textColor="@color/texto_secundario" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Título de lista -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:id="@+id/tvTituloLista"
+            style="@style/TextoCuerpo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="📋 Artículos de tu Departamento"
+            android:textColor="@color/texto_principal"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnRefresh"
+            style="@style/BotonSecundario"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:text="Actualizar"
+            android:textSize="10sp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:minWidth="0dp" />
+
+    </LinearLayout>
+
+    <!-- Lista de artículos -->
     <ListView
         android:id="@+id/listViewArticulos"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:divider="@android:color/transparent"
-        android:dividerHeight="8dp" />
+        android:dividerHeight="0dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="8dp"
+        android:clipToPadding="false" />
 
-    <!-- Botones debajo de la lista -->
-
-    <Button
-        android:id="@+id/btnExportarCSV"
+    <!-- Panel de acciones del usuario -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Exportar inventario a CSV"
-        android:minHeight="48dp"
-        android:layout_marginTop="12dp" />
+        android:background="@color/superficie_elevada"
+        android:elevation="6dp"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <Button
-        android:id="@+id/btnCerrarSesion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="🔓 Cerrar sesión"
-        android:minHeight="48dp"
-        android:layout_marginTop="24dp" />
+        <!-- Botón exportar CSV -->
+        <Button
+            android:id="@+id/btnExportarCSV"
+            style="@style/BotonSecundario"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="📊 Exportar CSV"
+            android:textColor="@color/verde_acento"
+            android:textSize="14sp"
+            app:strokeColor="@color/verde_acento"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Botón cerrar sesión -->
+        <Button
+            android:id="@+id/btnCerrarSesion"
+            style="@style/BotonSecundario"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="🔓 Cerrar Sesión"
+            android:textColor="@color/rojo_acento"
+            android:textSize="13sp"
+            app:strokeColor="@color/rojo_acento"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp" />
+
+    </LinearLayout>
+
 </LinearLayout>
