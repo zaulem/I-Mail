@@ -300,11 +300,30 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
 
     fun marcarArticuloComoDisponible(articuloId: Int): Boolean {
         val db = writableDatabase
-        val valores = ContentValues().apply {
-            put("estado", "Disponible")
+        db.beginTransaction()
+        return try {
+            // 1. Eliminar TODOS los registros de entregas asociadas al artículo
+            val entregasEliminadas = db.delete("entregas", "articuloId = ?", arrayOf(articuloId.toString()))
+
+            // 2. Actualizar estado del artículo a "Disponible"
+            val valores = ContentValues().apply {
+                put("estado", "Disponible")
+            }
+            val filasActualizadas = db.update("articulos", valores, "id = ?", arrayOf(articuloId.toString()))
+
+            // 3. Confirmar transacción si ambas operaciones fueron exitosas
+            if (filasActualizadas > 0) {
+                db.setTransactionSuccessful()
+                true
+            } else {
+                false
+            }
+        } catch (e: Exception) {
+            // En caso de error, la transacción se revierte automáticamente
+            false
+        } finally {
+            db.endTransaction()
         }
-        val filasActualizadas = db.update("articulos", valores, "id = ?", arrayOf(articuloId.toString()))
-        return filasActualizadas > 0
     }
 
     fun actualizarArticulo(articulo: Articulo): Boolean {

@@ -46,7 +46,7 @@ class MenuAdminActivity : AppCompatActivity() {
             cerrarSesion()
         }
 
-        // NUEVO: Botón Actualizar (opcional)
+        //Botón Actualizar (opcional)
         findViewById<Button>(R.id.btnRefresh).setOnClickListener {
             cargarArticulos()
             Toast.makeText(this, "Lista actualizada", Toast.LENGTH_SHORT).show()

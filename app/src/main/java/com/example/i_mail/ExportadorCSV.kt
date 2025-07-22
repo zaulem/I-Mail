@@ -45,7 +45,7 @@ object ExportadorCSV {
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
 
-        context.startActivity(Intent.createChooser(intent, "Enviar correo con..."))
+        context.startActivity(Intent.createChooser(intent, "Enviar Docuemento por..."))
     }
 
     fun exportarArticulosExtendido(context: Context, articulos: List<ArticuloExportado>): File? {
