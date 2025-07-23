@@ -6,6 +6,12 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
+/**
+ * Dashboard principal para administradores con estadísticas en tiempo real.
+ * Permite gestión completa del inventario y acceso a todas las funcionalidades.
+ */
+
+
 class MenuAdminActivity : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
@@ -81,11 +87,11 @@ class MenuAdminActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // NUEVO: Actualizar estadísticas después de cargar artículos
+        //Actualizar estadísticas después de cargar artículos
         actualizarEstadisticas()
     }
 
-    // NUEVA FUNCIÓN: Actualizar las estadísticas en las cards
+    //Actualizar las estadísticas en las cards
     private fun actualizarEstadisticas() {
         try {
             // Obtener estadísticas de la base de datos

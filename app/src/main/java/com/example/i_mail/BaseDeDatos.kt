@@ -5,6 +5,11 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
+/**
+ * Clase principal de acceso a datos usando SQLite.
+ * Gestiona todas las operaciones CRUD y consultas complejas del sistema.
+ */
+
 class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailDB", null, 2) {
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -145,7 +150,7 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         }
     }
 
-
+    //Metodo para registrar usuarios
     fun registrarUsuario(usuario: Usuario): Boolean {
         val db = writableDatabase
         val valores = ContentValues().apply {
@@ -159,7 +164,7 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         return resultado != -1L
     }
 
-
+    //Metodo para registrar articulos
     fun insertarArticulo(articulo: Articulo): Long {
         val db = writableDatabase
         val valores = ContentValues().apply {
@@ -173,6 +178,7 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         return db.insert("articulos", null, valores)
     }
 
+    //Metodo para obtener usuarios
     fun obtenerUsuarios(): List<Usuario> {
         val usuarios = mutableListOf<Usuario>()
         val db = readableDatabase
@@ -196,6 +202,7 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         return usuarios
     }
 
+    //Metodo para obtener articulos
     fun obtenerArticulos(): List<Articulo> {
         val articulos = mutableListOf<Articulo>()
         val db = readableDatabase
@@ -220,6 +227,7 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         return articulos
     }
 
+    //Metodo para obtener que usuario tiene asignado el articulo
     fun obtenerEntregaDeArticulo(articuloId: Int): EntregaConUsuario? {
         val db = readableDatabase
         val consulta = """
@@ -240,6 +248,7 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         } else null
     }
 
+    //Metodo para asignar articulo a usuario
     fun asignarArticuloAUsuario(articuloId: Int, usuarioId: Int, fechaEntrega: String): Boolean {
         val db = writableDatabase
         db.beginTransaction()
@@ -267,6 +276,7 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         }
     }
 
+    //Metodo para obtener articulos por departamento
     fun obtenerArticulosPorDepartamento(departamento: String): List<Articulo> {
         val db = readableDatabase
 
@@ -298,6 +308,7 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         return lista
     }
 
+    //Metodo para marcar articulo como disponible
     fun marcarArticuloComoDisponible(articuloId: Int): Boolean {
         val db = writableDatabase
         db.beginTransaction()
@@ -326,6 +337,7 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         }
     }
 
+    //Metodo para actualizar articulo
     fun actualizarArticulo(articulo: Articulo): Boolean {
         val db = writableDatabase
         val valores = ContentValues().apply {
@@ -340,6 +352,7 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         return filas > 0
     }
 
+    //Metodo para obtener articulo por id
     fun obtenerArticuloPorId(id: Int): Articulo? {
         val db = readableDatabase
         val cursor = db.rawQuery("SELECT * FROM articulos WHERE id = ?", arrayOf(id.toString()))
@@ -356,6 +369,7 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         } else null
     }
 
+    //metodo para obtener articulos por departamento
     fun obtenerArticulosExportablesAdmin(): List<ArticuloExportado> {
         val db = readableDatabase
         val query = """
@@ -387,6 +401,7 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
         return lista
     }
 
+    //Metodo para obtener articulos por departamento
     fun obtenerArticulosExportablesPorDepartamento(departamento: String): List<ArticuloExportado> {
         val db = readableDatabase
 
@@ -428,7 +443,7 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
     }
 
 
-
+    //metodo para eliminar articulo
     fun eliminarArticulo(id: Int): Boolean {
         val db = writableDatabase
 
@@ -442,7 +457,6 @@ class BaseDeDatos(context: Context) : SQLiteOpenHelper(context, "InventarioMailD
     }
 
     // ====== FUNCIONES DE ESTADÍSTICAS ======
-// Agregar estas funciones al final de tu clase BaseDeDatos, antes del onUpgrade
 
     /**
      * Cuenta el total de artículos registrados en el sistema

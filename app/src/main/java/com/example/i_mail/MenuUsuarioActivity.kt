@@ -6,6 +6,12 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
+/**
+ * Menú principal para usuarios regulares con vista filtrada por departamento.
+ * Proporciona acceso limitado según permisos del rol asignado.
+ */
+
+
 class MenuUsuarioActivity : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
@@ -126,7 +132,7 @@ class MenuUsuarioActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.tvAsignados).text = "0"
         }
     }
-
+    //Botón para cerrar sesión
     private fun cerrarSesion() {
         sharedPreferences.edit().clear().apply()
         Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show()

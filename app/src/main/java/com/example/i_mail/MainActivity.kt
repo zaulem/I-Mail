@@ -8,6 +8,12 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
+
+/**
+ * Pantalla de inicio de sesión con validación de credenciales.
+ * Redirige a menús específicos según el rol del usuario autenticado.
+ */
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var etCorreo: EditText

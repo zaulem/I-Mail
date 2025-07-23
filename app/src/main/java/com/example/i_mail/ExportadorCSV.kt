@@ -8,27 +8,12 @@ import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileWriter
 
+/**
+ * Clase para generar archivos CSV del inventario y enviarlos por correo.
+ * Diferencia entre exportaciones completas (admin) y por departamento (usuario).
+ */
+
 object ExportadorCSV {
-
-    fun exportarArticulos(context: Context, articulos: List<Articulo>): File? {
-        return try {
-            val archivo = File(context.getExternalFilesDir(null), "datos_exportados.csv")
-            val writer = FileWriter(archivo)
-
-            writer.append("ID,Nombre,Tipo,Cantidad,Estado,FechaIngreso\n")
-            for (articulo in articulos) {
-                writer.append("${articulo.id},${articulo.nombre},${articulo.tipo},${articulo.cantidad},${articulo.estado},${articulo.fechaIngreso}\n")
-            }
-
-            writer.flush()
-            writer.close()
-            archivo
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(context, "Error al exportar CSV", Toast.LENGTH_SHORT).show()
-            null
-        }
-    }
 
     fun enviarPorCorreo(context: Context, archivo: File) {
         val uri: Uri = FileProvider.getUriForFile(

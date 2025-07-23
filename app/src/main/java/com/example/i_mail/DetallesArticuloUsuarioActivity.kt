@@ -6,6 +6,12 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 
+/**
+ * Vista de solo lectura de artículos para usuarios regulares.
+ * Muestra información completa sin opciones de modificación.
+ */
+
+
 class DetallesArticuloUsuarioActivity : AppCompatActivity() {
 
     private lateinit var db: BaseDeDatos

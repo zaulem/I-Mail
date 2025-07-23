@@ -6,6 +6,12 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
+/**
+ * Actividad para modificar artículos existentes del inventario.
+ * Precarga datos actuales y permite actualización con validaciones.
+ */
+
+
 class editarArticulo : AppCompatActivity() {
 
     private lateinit var etNombre: EditText

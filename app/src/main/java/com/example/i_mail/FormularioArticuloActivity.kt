@@ -10,6 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * Pantalla para registrar nuevos artículos en el inventario.
+ * Incluye selección de imágenes y validación de datos de entrada.
+ */
+
 class FormularioArticuloActivity : AppCompatActivity() {
 
     private lateinit var etNombre: EditText

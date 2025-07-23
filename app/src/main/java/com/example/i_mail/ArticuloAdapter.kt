@@ -8,6 +8,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat
 
+/**
+ * Adaptador personalizado para mostrar listas de artículos en ListView.
+ * Maneja la visualización de imágenes y datos de cada artículo.
+ */
+
 class ArticuloAdapter(context: Context, private val articulos: List<Articulo>) :
     ArrayAdapter<Articulo>(context, 0, articulos) {
 

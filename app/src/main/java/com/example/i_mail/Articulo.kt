@@ -1,5 +1,9 @@
 package com.example.i_mail
 
+/**
+ * Representa un artículo del inventario.
+ * Contiene información básica como nombre, tipo, cantidad, estado e imagen.
+ */
 data class Articulo(
     val id: Int = 0,
     val nombre: String,

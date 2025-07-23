@@ -5,6 +5,11 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
+/**
+ * Formulario de registro para nuevos usuarios del sistema.
+ * Incluye validación de datos y asignación de departamentos.
+ */
+
 class RegistrarUsuarioActivity : AppCompatActivity() {
 
     private lateinit var etNombre: EditText

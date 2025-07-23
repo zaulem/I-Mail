@@ -9,6 +9,12 @@ import android.content.Intent
 import java.text.SimpleDateFormat
 import java.util.*
 
+
+/**
+ * Vista detallada de artículos para administradores con opciones de gestión.
+ * Permite asignación, edición, eliminación y visualización completa.
+ */
+
 class DetalleArticuloActivity : AppCompatActivity() {
 
     private lateinit var db: BaseDeDatos
